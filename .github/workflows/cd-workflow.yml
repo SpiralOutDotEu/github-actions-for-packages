@@ -46,6 +46,8 @@ jobs:
     name: Docker Build, Tag, Push
 
     steps:
+    - name: Init
+      run: echo ::set-env name=IMAGE_REPOSITORY::$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')
     - name: Checkout
       uses: actions/checkout@v1
     - name: Download built artifact
@@ -55,7 +57,6 @@ jobs:
         path: public
     - name: Build container image
       uses: docker/build-push-action@v2
-      run: echo ::set-env name=IMAGE_REPOSITORY::$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')
       with:
         username: ${{github.actor}}
         password: ${{secrets.GITHUB_TOKEN}}
