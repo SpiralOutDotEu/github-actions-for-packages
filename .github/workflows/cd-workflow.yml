@@ -55,9 +55,10 @@ jobs:
         path: public
     - name: Build container image
       uses: docker/build-push-action@v2
+      run: echo ::set-env name=IMAGE_REPOSITORY::$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')
       with:
         username: ${{github.actor}}
         password: ${{secrets.GITHUB_TOKEN}}
         registry: docker.pkg.github.com
-        repository: SpiralOutDotEu/github-actions-for-packages/tic-tac-toe
+        repository: ${{ env.IMAGE_REPOSITORY }}/tic-tac-toe
         tag_with_sha: true
